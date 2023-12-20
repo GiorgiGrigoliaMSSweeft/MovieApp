@@ -11,11 +11,10 @@ import com.example.movieapp.network.model.LatestMoviesItem
 import com.example.movieapp.network.NetworkModule.LatestMoviesApi
 import com.example.movieapp.network.model.LatestSeriesItem
 import com.example.movieapp.network.model.TrendingTodayItem
+import com.example.movieapp.network.statuses.LatestMoviesApiStatus
+import com.example.movieapp.network.statuses.LatestSeriesApiStatus
+import com.example.movieapp.network.statuses.TrendingTodayApiStatus
 import kotlinx.coroutines.launch
-
-enum class LatestMoviesApiStatus { LOADING, ERROR, DONE }
-enum class LatestSeriesApiStatus { LOADING, ERROR, DONE }
-enum class TrendingTodayApiStatus { LOADING, ERROR, DONE }
 
 class AppViewModel : ViewModel() {
 
