@@ -4,7 +4,6 @@ import com.example.movieapp.network.NetworkModule.API_KEY
 import com.example.movieapp.network.model.LatestSeriesResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Query
 
 interface LatestSeriesApiService {
     @GET("tv/popular")

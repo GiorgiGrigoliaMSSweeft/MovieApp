@@ -7,6 +7,6 @@ data class LatestMoviesResponse(
 )
 
 data class LatestMoviesItem(
-    val id: Long,
+    val id: Int,
     @Json(name = "poster_path") val posterPath: String
 )

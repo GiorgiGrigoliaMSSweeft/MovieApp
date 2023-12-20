@@ -7,6 +7,6 @@ data class TrendingTodayResponse(
 )
 
 data class TrendingTodayItem(
-    val id: Long,
+    val id: Int,
     @Json(name = "poster_path") val posterPath: String
 )
