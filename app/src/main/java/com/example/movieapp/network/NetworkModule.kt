@@ -10,8 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object NetworkModule {
     private const val BASE_URL = "https://api.themoviedb.org/3/"
-    const val API_KEY =
-        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzYwYTgzYjY0ZGU2NDc4ZjMzNzk3MTI5NDRmMjU0ZCIsInN1YiI6IjY1ODJhYjBiYjM0NDA5NDY4YzFhZTY3YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VVr8JZxvcAkFsOPnFmFDn_zAA5K1h3Tq3aE16OE8BWw"
+    const val API_KEY = "8760a83b64de6478f3379712944f254d"
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
