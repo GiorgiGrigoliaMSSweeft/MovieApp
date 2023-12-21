@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.network.NetworkModule.LatestMoviesApi
 import com.example.movieapp.network.NetworkModule.LatestSeriesApi
+import com.example.movieapp.network.NetworkModule.POSTER_BASE_URL
 import com.example.movieapp.network.NetworkModule.TrendingTodayApi
 import com.example.movieapp.network.model.LatestMoviesItem
 import com.example.movieapp.network.model.LatestSeriesItem
@@ -105,9 +106,5 @@ class AppViewModel : ViewModel() {
                 _retrievedTrendingTodayItems.value = listOf()
             }
         }
-    }
-
-    companion object {
-        private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
     }
 }
