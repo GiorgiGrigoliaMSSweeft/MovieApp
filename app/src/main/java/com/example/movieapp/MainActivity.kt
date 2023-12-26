@@ -1,17 +1,23 @@
 package com.example.movieapp
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import com.example.movieapp.databinding.ActivityMainBinding
+import com.example.movieapp.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: AppViewModel by viewModels()
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        viewModel.getLatestMovies()
-        viewModel.getLatestSeries()
-        viewModel.getTrendingTodayItems()
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<MainFragment>(R.id.mainFragment)
+            }
+        }
     }
 }

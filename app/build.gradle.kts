@@ -27,6 +27,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,7 +37,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 }
@@ -50,7 +50,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-
+    // Fragment
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     //Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
@@ -64,4 +65,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.5.0")
+
+    // ViewPager 2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 }
