@@ -31,25 +31,22 @@ class AppViewModel : ViewModel() {
 
     // Latest Movies
     private val _retrievedLatestMovies = MutableLiveData<List<Item>>()
-    val retrievedLatestMovies: LiveData<List<Item>> = _retrievedLatestMovies
 
     // Latest Series
     private val _retrievedLatestSeries = MutableLiveData<List<Item>>()
-    val retrievedLatestSeries: LiveData<List<Item>> = _retrievedLatestSeries
 
     // Trending Today
     private val _retrievedTrendingTodayItems = MutableLiveData<List<Item>>()
-    val retrievedTrendingTodayItems: LiveData<List<Item>> = _retrievedTrendingTodayItems
 
+    // All Items
     private val _allItems = MutableLiveData<List<RvItemDataClass>>()
     val allItems: LiveData<List<RvItemDataClass>> = _allItems
-
 
     init {
         getAllItems()
     }
 
-    private fun getAllItems() {
+    fun getAllItems() {
         viewModelScope.launch {
             try {
                 // Call functions to fetch each type of item separately
@@ -57,8 +54,15 @@ class AppViewModel : ViewModel() {
                 val latestSeries = fetchLatestSeries()
                 val trendingTodayItems = fetchTrendingTodayItems()
 
-                // Combine results into _allItems
-                combineItems(latestMovies, latestSeries, trendingTodayItems)
+                _retrievedLatestMovies.value = latestMovies
+                _retrievedLatestSeries.value = latestSeries
+                _retrievedTrendingTodayItems.value = trendingTodayItems
+
+                _allItems.value = listOf(
+                    RvItemDataClass(LATEST_MOVIES, latestMovies, isViewPagerType = true, isRecyclerViewType = false),
+                    RvItemDataClass(LATEST_SERIES, latestSeries, isViewPagerType = true, isRecyclerViewType = false),
+                    RvItemDataClass(TRENDING_TODAY, trendingTodayItems, isViewPagerType = false, isRecyclerViewType = true)
+                )
             } catch (e: Exception) {
                 // Handle error
                 Log.e("Tag", "Error fetching all items: ${e.message}")
@@ -106,22 +110,6 @@ class AppViewModel : ViewModel() {
             _retrievedTrendingTodayItems.value = listOf()
             throw e
         }
-    }
-
-    private fun combineItems(
-        latestMovies: List<Item>,
-        latestSeries: List<Item>,
-        trendingTodayItems: List<Item>
-    ) {
-        _retrievedLatestMovies.value = latestMovies
-        _retrievedLatestSeries.value = latestSeries
-        _retrievedTrendingTodayItems.value = trendingTodayItems
-
-        _allItems.value = listOf(
-            RvItemDataClass(LATEST_MOVIES, latestMovies),
-            RvItemDataClass(LATEST_SERIES, latestSeries),
-            RvItemDataClass(TRENDING_TODAY, trendingTodayItems)
-        )
     }
 
     companion object {
