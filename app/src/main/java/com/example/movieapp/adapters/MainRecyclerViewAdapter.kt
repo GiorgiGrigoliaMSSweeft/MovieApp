@@ -10,7 +10,7 @@ import com.example.movieapp.diffutils.MainRecyclerViewDiffUtil
 import com.example.movieapp.model.MainRecyclerViewItem
 import com.example.movieapp.viewholder.ViewHolder
 
-class MainRecyclerViewAdapter: ListAdapter<MainRecyclerViewItem, ViewHolder>(MainRecyclerViewDiffUtil()) {
+class MainRecyclerViewAdapter : ListAdapter<MainRecyclerViewItem, ViewHolder>(MainRecyclerViewDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
             R.layout.nested_view_pager_item_layout -> ViewHolder.NestedViewPagerItemViewHolder(

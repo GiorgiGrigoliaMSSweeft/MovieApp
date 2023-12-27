@@ -13,7 +13,7 @@ import com.example.movieapp.network.model.Item
 class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImageAdapter.ViewHolder>(NestedRecyclerViewImageDiffUtil()) {
     inner class ViewHolder(private val binding: NestedRecyclerViewImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
-            binding.nesterRecyclerViewImage.load(item.posterPath) {
+            binding.nestedRecyclerViewImage.load(item.posterPath) {
                 placeholder(R.drawable.loading_animation)
                 error(R.drawable.ic_broken_image)
             }

@@ -35,6 +35,7 @@ class MainFragmentWithRecyclerView : Fragment() {
             it.let { mainRecyclerViewAdapter.submitList(it) }
         }
 
+
         viewModel.requestStatus.observe(viewLifecycleOwner) {
             it.let {
                 if (it == RequestStatus.ERROR) {

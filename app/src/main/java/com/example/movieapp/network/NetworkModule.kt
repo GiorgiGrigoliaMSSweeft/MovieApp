@@ -2,6 +2,7 @@ package com.example.movieapp.network
 
 import com.example.movieapp.network.services.LatestMovieApiService
 import com.example.movieapp.network.services.LatestSeriesApiService
+import com.example.movieapp.network.services.MovieDetailsApiService
 import com.example.movieapp.network.services.TrendingTodayApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -40,6 +41,13 @@ object NetworkModule {
     object TrendingTodayApi{
         val retrofitService: TrendingTodayApiService by lazy {
             retrofit.create(TrendingTodayApiService::class.java)
+        }
+    }
+
+    // Movie Details API Service
+    object MovieDetailsApi {
+        val retrofitService: MovieDetailsApiService by lazy {
+            retrofit.create(MovieDetailsApiService::class.java)
         }
     }
 }

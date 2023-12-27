@@ -8,9 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.model.MainRecyclerViewItem
 import com.example.movieapp.network.NetworkModule.LatestMoviesApi
 import com.example.movieapp.network.NetworkModule.LatestSeriesApi
+import com.example.movieapp.network.NetworkModule.MovieDetailsApi
 import com.example.movieapp.network.NetworkModule.POSTER_BASE_URL
 import com.example.movieapp.network.NetworkModule.TrendingTodayApi
 import com.example.movieapp.network.model.Item
+import com.example.movieapp.network.model.MovieDetailsItem
 import com.example.movieapp.network.statuses.RequestStatus
 import kotlinx.coroutines.launch
 
@@ -32,7 +34,22 @@ class AppViewModel : ViewModel() {
     private val _allItems = MutableLiveData<List<MainRecyclerViewItem>>()
     val allItems: LiveData<List<MainRecyclerViewItem>> = _allItems
 
+    // Movie Details
+    private val _movieDetails = MutableLiveData<MovieDetailsItem>()
+    val movieDetails: LiveData<MovieDetailsItem> = _movieDetails
+
     init { fetchAllItems() }
+
+    fun fetchMovieDetails(movieId: Int = 241) {
+        viewModelScope.launch {
+            try {
+                val fetchedMovieDetails = MovieDetailsApi.retrofitService.getMovieDetails(movieId)
+                _movieDetails.value = fetchedMovieDetails
+            } catch (e: Exception) {
+                Log.d("Tag", "Error fetching movie details: ${e.message}")
+            }
+        }
+    }
 
     fun fetchAllItems() {
         viewModelScope.launch {
@@ -44,9 +61,24 @@ class AppViewModel : ViewModel() {
 
                 // Update allItems LiveData with the updated lists
                 _allItems.value = listOf(
-                    MainRecyclerViewItem(LATEST_MOVIES, _retrievedLatestMovies.value.orEmpty(), isViewPagerType = true, isRecyclerViewType = false),
-                    MainRecyclerViewItem(LATEST_SERIES, _retrievedLatestSeries.value.orEmpty(), isViewPagerType = true, isRecyclerViewType = false),
-                    MainRecyclerViewItem(TRENDING_TODAY, _retrievedTrendingTodayItems.value.orEmpty(), isViewPagerType = false, isRecyclerViewType = true)
+                    MainRecyclerViewItem(
+                        LATEST_MOVIES,
+                        _retrievedLatestMovies.value.orEmpty(),
+                        isViewPagerType = true,
+                        isRecyclerViewType = false
+                    ),
+                    MainRecyclerViewItem(
+                        LATEST_SERIES,
+                        _retrievedLatestSeries.value.orEmpty(),
+                        isViewPagerType = true,
+                        isRecyclerViewType = false
+                    ),
+                    MainRecyclerViewItem(
+                        TRENDING_TODAY,
+                        _retrievedTrendingTodayItems.value.orEmpty(),
+                        isViewPagerType = false,
+                        isRecyclerViewType = true
+                    )
                 )
             } catch (e: Exception) {
                 Log.e("Tag", "Error fetching all items: ${e.message}")
@@ -81,9 +113,10 @@ class AppViewModel : ViewModel() {
     private suspend fun fetchTrendingTodayItems() {
         try {
             val trendingTodayItems = TrendingTodayApi.retrofitService.getLatestTrendingItems()
-            _retrievedTrendingTodayItems.value = trendingTodayItems.results.map { trendingTodayItem ->
-                trendingTodayItem.copy(posterPath = POSTER_BASE_URL + trendingTodayItem.posterPath)
-            }
+            _retrievedTrendingTodayItems.value =
+                trendingTodayItems.results.map { trendingTodayItem ->
+                    trendingTodayItem.copy(posterPath = POSTER_BASE_URL + trendingTodayItem.posterPath)
+                }
             _requestStatus.value = RequestStatus.SUCCESS
         } catch (e: Exception) {
             _requestStatus.value = RequestStatus.ERROR
