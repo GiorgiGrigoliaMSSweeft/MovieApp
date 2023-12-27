@@ -3,4 +3,5 @@
     <string name="main_recycler_view">MainRecyclerView</string>
     <string name="error_message">Connection error. Please try again.</string>
     <string name="try_again">Try Again</string>
+    <string name="nested_recycler_view">Nested Recycler View</string>
 </resources>

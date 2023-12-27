@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="20dp">
+    android:layout_marginVertical="@dimen/nested_viewpager_item_layout_margin_vertical">
 
     <TextView
         android:id="@+id/nestedViewPagerTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginHorizontal="@dimen/nested_viewpager_item_title_margin_horizontal"
         android:textColor="?attr/titleTextColor"
-        android:textSize="24sp"
+        android:textSize="@dimen/nested_viewpager_item_title_font_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Latest Movies" />
@@ -24,7 +23,7 @@
         android:id="@+id/nestedViewPager"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="@dimen/nested_viewpager_item_viewpager_margin_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

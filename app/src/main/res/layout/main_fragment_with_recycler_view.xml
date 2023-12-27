@@ -30,7 +30,7 @@
         android:id="@+id/tryAgainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/main_fragment_try_again_button_margin_top"
         android:text="@string/try_again"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
