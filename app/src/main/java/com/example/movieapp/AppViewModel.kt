@@ -5,29 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.model.MainRecyclerViewItem
 import com.example.movieapp.network.NetworkModule.LatestMoviesApi
 import com.example.movieapp.network.NetworkModule.LatestSeriesApi
 import com.example.movieapp.network.NetworkModule.POSTER_BASE_URL
 import com.example.movieapp.network.NetworkModule.TrendingTodayApi
 import com.example.movieapp.network.model.Item
-import com.example.movieapp.network.statuses.LatestMoviesApiStatus
-import com.example.movieapp.network.statuses.LatestSeriesApiStatus
-import com.example.movieapp.network.statuses.TrendingTodayApiStatus
-import com.example.movieapp.model.MainRecyclerViewItem
+import com.example.movieapp.network.statuses.RequestStatus
 import kotlinx.coroutines.launch
 
 class AppViewModel : ViewModel() {
-    // Latest Movies - Status
-    private val _latestMoviesStatus = MutableLiveData<LatestMoviesApiStatus>()
-    val latestMoviesStatus: LiveData<LatestMoviesApiStatus> = _latestMoviesStatus
-
-    // Latest Series - Status
-    private val _latestSeriesStatus = MutableLiveData<LatestSeriesApiStatus>()
-    val latestSeriesStatus: LiveData<LatestSeriesApiStatus> = _latestSeriesStatus
-
-    // Trending Today - Status
-    private val _trendingTodayStatus = MutableLiveData<TrendingTodayApiStatus>()
-    val trendingTodayStatus: LiveData<TrendingTodayApiStatus> = _trendingTodayStatus
+    // Request Status
+    private val _requestStatus = MutableLiveData<RequestStatus>()
+    val requestStatus: LiveData<RequestStatus> = _requestStatus
 
     // Latest Movies
     private val _retrievedLatestMovies = MutableLiveData<List<Item>>()
@@ -42,26 +32,21 @@ class AppViewModel : ViewModel() {
     private val _allItems = MutableLiveData<List<MainRecyclerViewItem>>()
     val allItems: LiveData<List<MainRecyclerViewItem>> = _allItems
 
-    init {
-        getAllItems()
-    }
+    init { fetchAllItems() }
 
-    fun getAllItems() {
+    fun fetchAllItems() {
         viewModelScope.launch {
             try {
                 // Call functions to fetch each type of item separately
-                val latestMovies = fetchLatestMovies()
-                val latestSeries = fetchLatestSeries()
-                val trendingTodayItems = fetchTrendingTodayItems()
+                fetchLatestMovies()
+                fetchLatestSeries()
+                fetchTrendingTodayItems()
 
-                _retrievedLatestMovies.value = latestMovies
-                _retrievedLatestSeries.value = latestSeries
-                _retrievedTrendingTodayItems.value = trendingTodayItems
-
+                // Update allItems LiveData with the updated lists
                 _allItems.value = listOf(
-                    MainRecyclerViewItem(LATEST_MOVIES, latestMovies, isViewPagerType = true, isRecyclerViewType = false),
-                    MainRecyclerViewItem(LATEST_SERIES, latestSeries, isViewPagerType = true, isRecyclerViewType = false),
-                    MainRecyclerViewItem(TRENDING_TODAY, trendingTodayItems, isViewPagerType = false, isRecyclerViewType = true)
+                    MainRecyclerViewItem(LATEST_MOVIES, _retrievedLatestMovies.value.orEmpty(), isViewPagerType = true, isRecyclerViewType = false),
+                    MainRecyclerViewItem(LATEST_SERIES, _retrievedLatestSeries.value.orEmpty(), isViewPagerType = true, isRecyclerViewType = false),
+                    MainRecyclerViewItem(TRENDING_TODAY, _retrievedTrendingTodayItems.value.orEmpty(), isViewPagerType = false, isRecyclerViewType = true)
                 )
             } catch (e: Exception) {
                 // Handle error
@@ -70,45 +55,39 @@ class AppViewModel : ViewModel() {
         }
     }
 
-    private suspend fun fetchLatestMovies(): List<Item> {
-        _latestMoviesStatus.value = LatestMoviesApiStatus.LOADING
+    private suspend fun fetchLatestMovies() {
         try {
             val latestMovies = LatestMoviesApi.retrofitService.getLatestMovies()
-            return latestMovies.results.map { movie ->
+            _retrievedLatestMovies.value = latestMovies.results.map { movie ->
                 movie.copy(posterPath = POSTER_BASE_URL + movie.posterPath)
             }
+            _requestStatus.value = RequestStatus.SUCCESS
         } catch (e: Exception) {
-            _latestMoviesStatus.value = LatestMoviesApiStatus.ERROR
-            _retrievedLatestMovies.value = listOf()
-            throw e
+            _requestStatus.value = RequestStatus.ERROR
         }
     }
 
-    private suspend fun fetchLatestSeries(): List<Item> {
-        _latestSeriesStatus.value = LatestSeriesApiStatus.LOADING
+    private suspend fun fetchLatestSeries() {
         try {
             val latestSeries = LatestSeriesApi.retrofitService.getLatestSeries()
-            return latestSeries.results.map { series ->
+            _retrievedLatestSeries.value = latestSeries.results.map { series ->
                 series.copy(posterPath = POSTER_BASE_URL + series.posterPath)
             }
+            _requestStatus.value = RequestStatus.SUCCESS
         } catch (e: Exception) {
-            _latestSeriesStatus.value = LatestSeriesApiStatus.ERROR
-            _retrievedLatestSeries.value = listOf()
-            throw e
+            _requestStatus.value = RequestStatus.ERROR
         }
     }
 
-    private suspend fun fetchTrendingTodayItems(): List<Item> {
-        _trendingTodayStatus.value = TrendingTodayApiStatus.LOADING
+    private suspend fun fetchTrendingTodayItems() {
         try {
             val trendingTodayItems = TrendingTodayApi.retrofitService.getLatestTrendingItems()
-            return trendingTodayItems.results.map { trendingTodayItem ->
+            _retrievedTrendingTodayItems.value = trendingTodayItems.results.map { trendingTodayItem ->
                 trendingTodayItem.copy(posterPath = POSTER_BASE_URL + trendingTodayItem.posterPath)
             }
+            _requestStatus.value = RequestStatus.SUCCESS
         } catch (e: Exception) {
-            _trendingTodayStatus.value = TrendingTodayApiStatus.ERROR
-            _retrievedTrendingTodayItems.value = listOf()
-            throw e
+            _requestStatus.value = RequestStatus.ERROR
         }
     }
 

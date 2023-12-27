@@ -19,7 +19,6 @@ sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.
             binding.nestedViewPagerTitle.text = item.title
             binding.nestedViewPager.adapter = viewPagerImageAdapter
             viewPagerImageAdapter.submitList(item.listOfItems)
-
             setupViewPager()
         }
 

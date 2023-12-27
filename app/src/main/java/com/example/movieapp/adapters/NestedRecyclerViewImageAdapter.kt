@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.movieapp.R
 import com.example.movieapp.databinding.NestedRecyclerViewImageLayoutBinding
 import com.example.movieapp.diffutils.NestedRecyclerViewImageDiffUtil
 import com.example.movieapp.network.model.Item
@@ -12,7 +13,9 @@ import com.example.movieapp.network.model.Item
 class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImageAdapter.ViewHolder>(NestedRecyclerViewImageDiffUtil()) {
     inner class ViewHolder(private val binding: NestedRecyclerViewImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
-            binding.nesterRecyclerViewImage.load(item.posterPath)
+            binding.nesterRecyclerViewImage.load(item.posterPath) {
+                placeholder(R.drawable.loading_animation)
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.movieapp.R
 import com.example.movieapp.databinding.NestedViewPagerImageLayoutBinding
 import com.example.movieapp.diffutils.NestedViewPagerImageDiffUtil
 import com.example.movieapp.network.model.Item
@@ -12,7 +13,10 @@ import com.example.movieapp.network.model.Item
 class NestedViewPagerImageAdapter : ListAdapter<Item, NestedViewPagerImageAdapter.ViewHolder>(NestedViewPagerImageDiffUtil()) {
     inner class ViewHolder(private val binding: NestedViewPagerImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
-            binding.nestedViewPagerImage.load(item.posterPath)
+            binding.nestedViewPagerImage.load(item.posterPath) {
+                placeholder(R.drawable.loading_animation)
+                error(R.drawable.ic_broken_image)
+            }
         }
     }
 
