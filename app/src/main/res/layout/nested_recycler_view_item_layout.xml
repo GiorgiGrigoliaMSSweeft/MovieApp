@@ -27,5 +27,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewTitle"
-        tools:listitem="@layout/recycler_view_item" />
+        tools:listitem="@layout/nested_recycler_view_image_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

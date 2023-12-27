@@ -14,6 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment_with_recycler_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

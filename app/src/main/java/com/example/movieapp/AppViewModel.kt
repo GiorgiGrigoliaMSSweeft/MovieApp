@@ -13,7 +13,7 @@ import com.example.movieapp.network.model.Item
 import com.example.movieapp.network.statuses.LatestMoviesApiStatus
 import com.example.movieapp.network.statuses.LatestSeriesApiStatus
 import com.example.movieapp.network.statuses.TrendingTodayApiStatus
-import com.example.movieapp.rvmodel.RvItemDataClass
+import com.example.movieapp.model.MainRecyclerViewItem
 import kotlinx.coroutines.launch
 
 class AppViewModel : ViewModel() {
@@ -39,8 +39,8 @@ class AppViewModel : ViewModel() {
     private val _retrievedTrendingTodayItems = MutableLiveData<List<Item>>()
 
     // All Items
-    private val _allItems = MutableLiveData<List<RvItemDataClass>>()
-    val allItems: LiveData<List<RvItemDataClass>> = _allItems
+    private val _allItems = MutableLiveData<List<MainRecyclerViewItem>>()
+    val allItems: LiveData<List<MainRecyclerViewItem>> = _allItems
 
     init {
         getAllItems()
@@ -59,9 +59,9 @@ class AppViewModel : ViewModel() {
                 _retrievedTrendingTodayItems.value = trendingTodayItems
 
                 _allItems.value = listOf(
-                    RvItemDataClass(LATEST_MOVIES, latestMovies, isViewPagerType = true, isRecyclerViewType = false),
-                    RvItemDataClass(LATEST_SERIES, latestSeries, isViewPagerType = true, isRecyclerViewType = false),
-                    RvItemDataClass(TRENDING_TODAY, trendingTodayItems, isViewPagerType = false, isRecyclerViewType = true)
+                    MainRecyclerViewItem(LATEST_MOVIES, latestMovies, isViewPagerType = true, isRecyclerViewType = false),
+                    MainRecyclerViewItem(LATEST_SERIES, latestSeries, isViewPagerType = true, isRecyclerViewType = false),
+                    MainRecyclerViewItem(TRENDING_TODAY, trendingTodayItems, isViewPagerType = false, isRecyclerViewType = true)
                 )
             } catch (e: Exception) {
                 // Handle error

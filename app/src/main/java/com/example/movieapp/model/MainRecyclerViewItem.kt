@@ -1,13 +1,8 @@
-package com.example.movieapp.rvmodel
+package com.example.movieapp.model
 
 import com.example.movieapp.network.model.Item
 
-//data class RvItemDataClass(
-//    val title: String,
-//    val listOfItems: List<Item>
-//)
-
-data class RvItemDataClass(
+data class MainRecyclerViewItem(
     val title: String,
     val listOfItems: List<Item>,
     val isViewPagerType: Boolean, // true if it's a ViewPager type, false otherwise

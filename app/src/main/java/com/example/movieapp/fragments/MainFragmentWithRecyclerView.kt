@@ -8,22 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.AppViewModel
-import com.example.movieapp.R
-import com.example.movieapp.adapters.RecyclerViewAdapter
-import com.example.movieapp.databinding.MainFragmentBinding
+import com.example.movieapp.adapters.MainRecyclerViewAdapter
+import com.example.movieapp.databinding.MainFragmentWithRecyclerViewBinding
 import com.example.movieapp.network.statuses.LatestMoviesApiStatus
 import com.example.movieapp.network.statuses.LatestSeriesApiStatus
 import com.example.movieapp.network.statuses.TrendingTodayApiStatus
 
-class MainFragment : Fragment() {
-    private val binding by lazy { MainFragmentBinding.inflate(layoutInflater) }
+class MainFragmentWithRecyclerView : Fragment() {
+    private val binding by lazy { MainFragmentWithRecyclerViewBinding.inflate(layoutInflater) }
     private val viewModel: AppViewModel by viewModels()
-    private val recyclerViewAdapter by lazy {
-        RecyclerViewAdapter(
-            resources.getDimension(R.dimen.viewpager_next_item_visible),
-            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
-        )
-    }
+    private val mainRecyclerViewAdapter by lazy { MainRecyclerViewAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +30,11 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mainRecyclerView.adapter = recyclerViewAdapter
+        binding.mainRecyclerView.adapter = mainRecyclerViewAdapter
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.allItems.observe(viewLifecycleOwner) {
-            it.let { recyclerViewAdapter.submitList(it) }
+            it.let { mainRecyclerViewAdapter.submitList(it) }
         }
 
         viewModel.latestMoviesStatus.observe(viewLifecycleOwner) {
