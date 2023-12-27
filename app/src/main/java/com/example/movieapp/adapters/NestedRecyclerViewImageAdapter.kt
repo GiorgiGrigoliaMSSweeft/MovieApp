@@ -15,6 +15,7 @@ class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImage
         fun bind(item: Item) {
             binding.nesterRecyclerViewImage.load(item.posterPath) {
                 placeholder(R.drawable.loading_animation)
+                error(R.drawable.ic_broken_image)
             }
         }
     }

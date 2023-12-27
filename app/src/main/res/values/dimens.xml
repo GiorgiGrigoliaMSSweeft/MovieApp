@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
-    <dimen name="main_fragment_try_again_button_margin_top">10dp</dimen>
+    <dimen name="main_fragment_try_again_button_margin_top">20dp</dimen>
+    <dimen name="main_fragment_error_message_margin_top">5dp</dimen>
 
     <dimen name="viewpager_next_item_visible">30dp</dimen>
     <dimen name="viewpager_current_item_horizontal_margin">50dp</dimen>
@@ -11,6 +11,7 @@
     <dimen name="nested_recycler_view_image_height">150dp</dimen>
     <dimen name="nested_recycler_view_image_margin_horizontal">12dp</dimen>
 
+    <dimen name="nested_recycler_view_item_layout_margin_vertical">20dp</dimen>
     <dimen name="nested_recycler_view_title_font_size">24sp</dimen>
     <dimen name="nested_recycler_view_title_margin_horizontal">12dp</dimen>
     <dimen name="nested_recycler_view_margin_top">27dp</dimen>

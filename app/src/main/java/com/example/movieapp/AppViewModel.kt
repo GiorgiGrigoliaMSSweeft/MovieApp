@@ -49,7 +49,6 @@ class AppViewModel : ViewModel() {
                     MainRecyclerViewItem(TRENDING_TODAY, _retrievedTrendingTodayItems.value.orEmpty(), isViewPagerType = false, isRecyclerViewType = true)
                 )
             } catch (e: Exception) {
-                // Handle error
                 Log.e("Tag", "Error fetching all items: ${e.message}")
             }
         }

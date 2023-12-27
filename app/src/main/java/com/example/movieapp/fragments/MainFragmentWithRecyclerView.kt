@@ -40,6 +40,7 @@ class MainFragmentWithRecyclerView : Fragment() {
                 if (it == RequestStatus.ERROR) {
                     binding.apply {
                         mainRecyclerView.visibility = View.GONE
+                        errorImage.visibility = View.VISIBLE
                         errorMessage.visibility = View.VISIBLE
                         tryAgainButton.visibility = View.VISIBLE
                         tryAgainButton.setOnClickListener {
@@ -49,6 +50,7 @@ class MainFragmentWithRecyclerView : Fragment() {
                 } else {
                     binding.apply {
                         mainRecyclerView.visibility = View.VISIBLE
+                        errorImage.visibility = View.GONE
                         errorMessage.visibility = View.GONE
                         tryAgainButton.visibility = View.GONE
                     }
