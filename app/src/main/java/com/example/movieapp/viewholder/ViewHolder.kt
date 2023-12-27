@@ -16,8 +16,8 @@ sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.
     class NestedViewPagerItemViewHolder(private val binding: NestedViewPagerItemLayoutBinding) : ViewHolder(binding) {
         private val viewPagerImageAdapter = NestedViewPagerImageAdapter()
         fun bind(item: MainRecyclerViewItem) {
-            binding.viewPagerTitle.text = item.title
-            binding.viewPager.adapter = viewPagerImageAdapter
+            binding.nestedViewPagerTitle.text = item.title
+            binding.nestedViewPager.adapter = viewPagerImageAdapter
             viewPagerImageAdapter.submitList(item.listOfItems)
 
             setupViewPager()
@@ -28,7 +28,7 @@ sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.
 
             val nextItemVisiblePx = binding.root.resources.getDimension(R.dimen.viewpager_next_item_visible)
             val currentItemHorizontalMarginPx = binding.root.resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
-            binding.viewPager.offscreenPageLimit = 1
+            binding.nestedViewPager.offscreenPageLimit = 1
             // Calculate translationX based on dimensions
             val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
 
@@ -39,15 +39,15 @@ sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.
                 page.scaleY = 1 - (0.25f * abs(position))
             }
             // Set the custom page transformer
-            binding.viewPager.setPageTransformer(pageTransformer)
+            binding.nestedViewPager.setPageTransformer(pageTransformer)
         }
     }
 
     class NestedRecyclerViewViewHolder(private val binding: NestedRecyclerViewItemLayoutBinding) : ViewHolder(binding) {
         private val nestedRecyclerViewImageAdapter = NestedRecyclerViewImageAdapter()
         fun bind(item: MainRecyclerViewItem) {
-            binding.recyclerViewTitle.text = item.title
-            binding.recyclerView.adapter = nestedRecyclerViewImageAdapter
+            binding.nestedRecyclerViewTitle.text = item.title
+            binding.nestedRecyclerView.adapter = nestedRecyclerViewImageAdapter
             nestedRecyclerViewImageAdapter.submitList(item.listOfItems)
         }
     }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/recyclerViewTitle"
+        android:id="@+id/nestedRecyclerViewTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
@@ -18,7 +18,7 @@
         tools:text="Trending Today" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/nestedRecyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
@@ -26,6 +26,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/nestedRecyclerViewTitle"
         tools:listitem="@layout/nested_recycler_view_image_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

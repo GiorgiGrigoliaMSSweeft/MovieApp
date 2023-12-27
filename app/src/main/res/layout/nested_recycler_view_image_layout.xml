@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/viewPagerItem"
+        android:id="@+id/nesterRecyclerViewImage"
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:layout_marginHorizontal="12dp"

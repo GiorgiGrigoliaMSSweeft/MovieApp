@@ -12,7 +12,7 @@ import com.example.movieapp.network.model.Item
 class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImageAdapter.ViewHolder>(NestedRecyclerViewImageDiffUtil()) {
     inner class ViewHolder(private val binding: NestedRecyclerViewImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
-            binding.viewPagerItem.load(item.posterPath)
+            binding.nesterRecyclerViewImage.load(item.posterPath)
         }
     }
 
