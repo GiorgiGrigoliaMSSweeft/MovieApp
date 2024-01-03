@@ -5,16 +5,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.example.movieapp.R
-import com.example.movieapp.adapters.NestedRecyclerViewImageAdapter
-import com.example.movieapp.adapters.NestedViewPagerImageAdapter
 import com.example.movieapp.databinding.NestedRecyclerViewItemLayoutBinding
 import com.example.movieapp.databinding.NestedViewPagerItemLayoutBinding
+import com.example.movieapp.fragments.mainfragment.adapters.NestedRecyclerViewImageAdapter
+import com.example.movieapp.fragments.mainfragment.adapters.NestedViewPagerImageAdapter
+import com.example.movieapp.fragments.mainfragment.adapters.NestedViewPagerItemClickListener
 import com.example.movieapp.model.MainRecyclerViewItem
 import kotlin.math.abs
 
 sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-    class NestedViewPagerItemViewHolder(private val binding: NestedViewPagerItemLayoutBinding) : ViewHolder(binding) {
-        private val viewPagerImageAdapter = NestedViewPagerImageAdapter()
+    class NestedViewPagerViewHolder(
+        private val binding: NestedViewPagerItemLayoutBinding,
+        nestedViewPagerItemClickListener: NestedViewPagerItemClickListener
+    ) : ViewHolder(binding) {
+        private val viewPagerImageAdapter = NestedViewPagerImageAdapter(nestedViewPagerItemClickListener)
         fun bind(item: MainRecyclerViewItem) {
             binding.nestedViewPagerTitle.text = item.title
             binding.nestedViewPager.adapter = viewPagerImageAdapter
@@ -24,7 +28,6 @@ sealed class ViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.
 
         private fun setupViewPager() {
             // Number of off-screen pages to retain on either side of the current page
-
             val nextItemVisiblePx = binding.root.resources.getDimension(R.dimen.viewpager_next_item_visible)
             val currentItemHorizontalMarginPx = binding.root.resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
             binding.nestedViewPager.offscreenPageLimit = 1

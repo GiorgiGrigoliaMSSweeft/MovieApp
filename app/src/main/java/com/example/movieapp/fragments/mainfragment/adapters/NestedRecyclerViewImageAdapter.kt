@@ -1,4 +1,4 @@
-package com.example.movieapp.adapters
+package com.example.movieapp.fragments.mainfragment.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.movieapp.R
 import com.example.movieapp.databinding.NestedRecyclerViewImageLayoutBinding
-import com.example.movieapp.diffutils.NestedRecyclerViewImageDiffUtil
+import com.example.movieapp.fragments.mainfragment.diffutils.NestedRecyclerViewImageDiffUtil
 import com.example.movieapp.network.model.Item
 
-class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImageAdapter.ViewHolder>(NestedRecyclerViewImageDiffUtil()) {
+class NestedRecyclerViewImageAdapter : ListAdapter<Item, NestedRecyclerViewImageAdapter.ViewHolder>(
+    NestedRecyclerViewImageDiffUtil()
+) {
     inner class ViewHolder(private val binding: NestedRecyclerViewImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
             binding.nestedRecyclerViewImage.load(item.posterPath) {

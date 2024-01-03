@@ -1,4 +1,4 @@
-package com.example.movieapp.diffutils
+package com.example.movieapp.fragments.mainfragment.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movieapp.model.MainRecyclerViewItem

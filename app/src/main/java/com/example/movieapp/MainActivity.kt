@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.movieapp.databinding.ActivityMainBinding
-import com.example.movieapp.fragments.MainFragmentWithRecyclerView
+import com.example.movieapp.fragments.mainfragment.MainFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<MainFragmentWithRecyclerView>(R.id.mainFragment)
+                add<MainFragment>(R.id.mainFragment)
             }
         }
     }

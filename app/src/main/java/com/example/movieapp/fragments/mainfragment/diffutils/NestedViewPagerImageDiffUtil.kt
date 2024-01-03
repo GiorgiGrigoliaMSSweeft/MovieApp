@@ -1,9 +1,9 @@
-package com.example.movieapp.diffutils
+package com.example.movieapp.fragments.mainfragment.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movieapp.network.model.Item
 
-class NestedRecyclerViewImageDiffUtil : DiffUtil.ItemCallback<Item>() {
+class NestedViewPagerImageDiffUtil : DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem == newItem
     }

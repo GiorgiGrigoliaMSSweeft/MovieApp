@@ -2,10 +2,10 @@ package com.example.movieapp.network.model
 
 import com.squareup.moshi.Json
 
-data class MovieDetailsItem(
-    @Json(name = "production_companies") val productionCompanies: List<ProductionCompany>,
-    val overview: String,
-    val homepage: String
+data class ItemDetails(
+    @Json(name = "production_companies") val productionCompanies: List<ProductionCompany>? = null,
+    val overview: String? = null,
+    val homepage: String? = null
 )
 
 data class ProductionCompany(

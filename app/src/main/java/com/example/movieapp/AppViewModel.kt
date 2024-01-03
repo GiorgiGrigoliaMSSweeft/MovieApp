@@ -1,131 +1,105 @@
 package com.example.movieapp
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.constants.Constants.LATEST_MOVIES
+import com.example.movieapp.constants.Constants.LATEST_SERIES
+import com.example.movieapp.constants.Constants.POSTER_BASE_URL
+import com.example.movieapp.constants.Constants.TRENDING_TODAY
 import com.example.movieapp.model.MainRecyclerViewItem
-import com.example.movieapp.network.NetworkModule.LatestMoviesApi
-import com.example.movieapp.network.NetworkModule.LatestSeriesApi
-import com.example.movieapp.network.NetworkModule.MovieDetailsApi
-import com.example.movieapp.network.NetworkModule.POSTER_BASE_URL
-import com.example.movieapp.network.NetworkModule.TrendingTodayApi
+import com.example.movieapp.network.NetworkModule.Movies
+import com.example.movieapp.network.NetworkModule.Series
+import com.example.movieapp.network.NetworkModule.TrendingToday
 import com.example.movieapp.network.model.Item
-import com.example.movieapp.network.model.MovieDetailsItem
-import com.example.movieapp.network.statuses.RequestStatus
 import kotlinx.coroutines.launch
 
 class AppViewModel : ViewModel() {
-    // Request Status
-    private val _requestStatus = MutableLiveData<RequestStatus>()
-    val requestStatus: LiveData<RequestStatus> = _requestStatus
+    private val _allItemsRequestStatus = MutableLiveData<Result<List<Item>>>()
+    val allItemsRequestStatus: MutableLiveData<Result<List<Item>>> = _allItemsRequestStatus
 
-    // Latest Movies
-    private val _retrievedLatestMovies = MutableLiveData<List<Item>>()
-
-    // Latest Series
-    private val _retrievedLatestSeries = MutableLiveData<List<Item>>()
-
-    // Trending Today
-    private val _retrievedTrendingTodayItems = MutableLiveData<List<Item>>()
-
-    // All Items
     private val _allItems = MutableLiveData<List<MainRecyclerViewItem>>()
     val allItems: LiveData<List<MainRecyclerViewItem>> = _allItems
 
-    // Movie Details
-    private val _movieDetails = MutableLiveData<MovieDetailsItem>()
-    val movieDetails: LiveData<MovieDetailsItem> = _movieDetails
+    private val _latestMovies = MutableLiveData<List<Item>>()
+    private val _latestSeries = MutableLiveData<List<Item>>()
+    private val _trendingItems = MutableLiveData<List<Item>>()
 
-    init { fetchAllItems() }
-
-    fun fetchMovieDetails(movieId: Int = 241) {
-        viewModelScope.launch {
-            try {
-                val fetchedMovieDetails = MovieDetailsApi.retrofitService.getMovieDetails(movieId)
-                _movieDetails.value = fetchedMovieDetails
-            } catch (e: Exception) {
-                Log.d("Tag", "Error fetching movie details: ${e.message}")
-            }
-        }
+    init {
+        fetchAllItems()
     }
 
     fun fetchAllItems() {
         viewModelScope.launch {
             try {
-                // Call functions to fetch each type of item separately
                 fetchLatestMovies()
                 fetchLatestSeries()
                 fetchTrendingTodayItems()
 
-                // Update allItems LiveData with the updated lists
                 _allItems.value = listOf(
                     MainRecyclerViewItem(
                         LATEST_MOVIES,
-                        _retrievedLatestMovies.value.orEmpty(),
+                        _latestMovies.value.orEmpty(),
                         isViewPagerType = true,
                         isRecyclerViewType = false
                     ),
                     MainRecyclerViewItem(
                         LATEST_SERIES,
-                        _retrievedLatestSeries.value.orEmpty(),
+                        _latestSeries.value.orEmpty(),
                         isViewPagerType = true,
                         isRecyclerViewType = false
                     ),
                     MainRecyclerViewItem(
                         TRENDING_TODAY,
-                        _retrievedTrendingTodayItems.value.orEmpty(),
+                        _trendingItems.value.orEmpty(),
                         isViewPagerType = false,
                         isRecyclerViewType = true
                     )
                 )
             } catch (e: Exception) {
-                Log.e("Tag", "Error fetching all items: ${e.message}")
+                _allItemsRequestStatus.value = Result.failure(e)
             }
         }
     }
 
     private suspend fun fetchLatestMovies() {
-        try {
-            val latestMovies = LatestMoviesApi.retrofitService.getLatestMovies()
-            _retrievedLatestMovies.value = latestMovies.results.map { movie ->
-                movie.copy(posterPath = POSTER_BASE_URL + movie.posterPath)
-            }
-            _requestStatus.value = RequestStatus.SUCCESS
+        return try {
+            val latestMovies =
+                Movies.retrofitService.getLatestMovies().results.map { movie ->
+                    movie.copy(posterPath = POSTER_BASE_URL + movie.posterPath)
+                }
+            _latestMovies.value = latestMovies
+            _allItemsRequestStatus.value = Result.success(latestMovies)
         } catch (e: Exception) {
-            _requestStatus.value = RequestStatus.ERROR
+            _allItemsRequestStatus.value = Result.failure(e)
         }
     }
 
+
     private suspend fun fetchLatestSeries() {
         try {
-            val latestSeries = LatestSeriesApi.retrofitService.getLatestSeries()
-            _retrievedLatestSeries.value = latestSeries.results.map { series ->
-                series.copy(posterPath = POSTER_BASE_URL + series.posterPath)
-            }
-            _requestStatus.value = RequestStatus.SUCCESS
+            val latestSeries =
+                Series.retrofitService.getLatestSeries().results.map { series ->
+                    series.copy(posterPath = POSTER_BASE_URL + series.posterPath)
+                }
+            _latestSeries.value = latestSeries
+            _allItemsRequestStatus.value = Result.success(latestSeries)
         } catch (e: Exception) {
-            _requestStatus.value = RequestStatus.ERROR
+            _allItemsRequestStatus.value = Result.failure(e)
         }
     }
 
     private suspend fun fetchTrendingTodayItems() {
         try {
-            val trendingTodayItems = TrendingTodayApi.retrofitService.getLatestTrendingItems()
-            _retrievedTrendingTodayItems.value =
-                trendingTodayItems.results.map { trendingTodayItem ->
+            val trendingTodayItems =
+                TrendingToday.retrofitService.getLatestTrendingItems().results.map { trendingTodayItem ->
                     trendingTodayItem.copy(posterPath = POSTER_BASE_URL + trendingTodayItem.posterPath)
                 }
-            _requestStatus.value = RequestStatus.SUCCESS
+            _trendingItems.value = trendingTodayItems
+            _allItemsRequestStatus.value = Result.success(trendingTodayItems)
         } catch (e: Exception) {
-            _requestStatus.value = RequestStatus.ERROR
+            _allItemsRequestStatus.value = Result.failure(e)
         }
-    }
-
-    companion object {
-        private const val LATEST_MOVIES = "Latest Movies"
-        private const val LATEST_SERIES = "Latest Series"
-        private const val TRENDING_TODAY = "Trending Today"
     }
 }
