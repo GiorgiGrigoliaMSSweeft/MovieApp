@@ -66,7 +66,7 @@ class AppViewModel : ViewModel() {
     private suspend fun fetchLatestMovies() {
         return try {
             val latestMovies =
-                Movies.retrofitService.getLatestMovies().results.map { movie ->
+                Movies.retrofitService.getMovies().results.map { movie ->
                     movie.copy(posterPath = POSTER_BASE_URL + movie.posterPath)
                 }
             _latestMovies.value = latestMovies
@@ -80,7 +80,7 @@ class AppViewModel : ViewModel() {
     private suspend fun fetchLatestSeries() {
         try {
             val latestSeries =
-                Series.retrofitService.getLatestSeries().results.map { series ->
+                Series.retrofitService.getSeries().results.map { series ->
                     series.copy(posterPath = POSTER_BASE_URL + series.posterPath)
                 }
             _latestSeries.value = latestSeries
@@ -93,7 +93,7 @@ class AppViewModel : ViewModel() {
     private suspend fun fetchTrendingTodayItems() {
         try {
             val trendingTodayItems =
-                TrendingToday.retrofitService.getLatestTrendingItems().results.map { trendingTodayItem ->
+                TrendingToday.retrofitService.getTrendingItems().results.map { trendingTodayItem ->
                     trendingTodayItem.copy(posterPath = POSTER_BASE_URL + trendingTodayItem.posterPath)
                 }
             _trendingItems.value = trendingTodayItems

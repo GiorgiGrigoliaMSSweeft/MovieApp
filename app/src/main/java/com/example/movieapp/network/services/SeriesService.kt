@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface SeriesService {
     @GET("tv/popular")
-    suspend fun getLatestSeries(
+    suspend fun getSeries(
         @Query("api_key") apiKey: String = API_KEY
     ): ItemList
 

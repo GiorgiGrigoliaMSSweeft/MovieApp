@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface TrendingTodayService {
     @GET("trending/all/day")
-    suspend fun getLatestTrendingItems(
+    suspend fun getTrendingItems(
         @Query("api_key") apiKey: String = API_KEY
     ): ItemList
 }
